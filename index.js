@@ -35,11 +35,14 @@ SimpleHttpSwitch.prototype = {
 
     getPowerState: function (callback) {
         var body;
-
-        var res = request('POST', this.url, {});
+        try {
+            var res = request('POST', this.url, {});
+        } catch (error) {
+            callback(error, false);
+        }
         if(res.statusCode > 400){
             this.log('HTTP power function failed');
-            callback(error, false);
+            callback('Error', false);
         }else{
             this.log('HTTP power function succeeded!');
             var info = JSON.parse(res.body);
@@ -55,13 +58,13 @@ SimpleHttpSwitch.prototype = {
 		var res = request('POST', this.url, {});
 		if(res.statusCode > 400){
 			this.log('HTTP power function failed');
-			callback(error);
+			callback('Error');
 		}else{
 			this.log('HTTP power function succeeded!');
             var info = JSON.parse(res.body);
             this.log(res.body);
             this.log(info);
-			callback();
+			callback(null, info);
 		}
 
     },
