@@ -15,9 +15,7 @@ function SimpleHttpSwitch(log, config) {
 
     // url info
     this.url = config["url"];
-    this.http_method = config["http_method"];
     this.sendimmediately = config["sendimmediately"];
-    this.default_state_off = config["default_state_off"];
     this.name = config["name"];
 }
 
@@ -36,13 +34,25 @@ SimpleHttpSwitch.prototype = {
     },
 
     getPowerState: function (callback) {
-        callback(null, !this.default_state_off);
+        var body;
+
+        var res = request('POST', this.url, {});
+        if(res.statusCode > 400){
+            this.log('HTTP power function failed');
+            callback(error, false);
+        }else{
+            this.log('HTTP power function succeeded!');
+            var info = JSON.parse(res.body);
+            this.log(res.body);
+            this.log(info);
+            callback(null, info);
+        }
     },
 
     setPowerState: function(powerOn, callback) {
         var body;
 
-		var res = request(this.http_method, this.url, {});
+		var res = request('POST', this.url, {});
 		if(res.statusCode > 400){
 			this.log('HTTP power function failed');
 			callback(error);

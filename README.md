@@ -20,9 +20,7 @@ Configuration sample:
             "accessory": "SimpleHttpSwitch",
             "name": "Living Room Button",
             "url": "http://192.168.1.210/button",
-            "default_state_off": true, 
-            "sendimmediately": "",
-            "http_method": "GET"
+            "sendimmediately": ""
         }
     ]
 
@@ -30,7 +28,7 @@ Configuration sample:
 
 # Request
 
-This plugin will call the specified URL for both On and Off state. It expects the server, that receives the request, to toggle the state for each subsequent call.
+This plugin will call the specified URL for both On and Off state. It expects the server, that receives the POST request, to toggle the state for each subsequent call and GET request to read state.
 
 # Response
 
