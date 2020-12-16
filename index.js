@@ -37,18 +37,18 @@ SimpleHttpSwitch.prototype = {
         var body;
         try {
             var res = request('GET', this.url, {});
+            if(res.statusCode > 400){
+                this.log('HTTP power function failed');
+                callback('Error', false);
+            }else{
+                this.log('HTTP power function succeeded!');
+                var info = JSON.parse(res.body);
+                this.log(res.body);
+                this.log(info);
+                callback(null, info);
+            }
         } catch (error) {
             callback(error, false);
-        }
-        if(res.statusCode > 400){
-            this.log('HTTP power function failed');
-            callback('Error', false);
-        }else{
-            this.log('HTTP power function succeeded!');
-            var info = JSON.parse(res.body);
-            this.log(res.body);
-            this.log(info);
-            callback(null, info);
         }
     },
 
@@ -56,20 +56,20 @@ SimpleHttpSwitch.prototype = {
         var body;
 
         try {
-		  var res = request('POST', this.url, {});
+		    var res = request('POST', this.url, {});
+            if(res.statusCode > 400){
+                this.log('HTTP power function failed');
+                callback('Error');
+            }else{
+                this.log('HTTP power function succeeded!');
+                var info = JSON.parse(res.body);
+                this.log(res.body);
+                this.log(info);
+                callback(null, info);
+            }
         } catch (error) {
             callback(error, false);
-        }          
-		if(res.statusCode > 400){
-			this.log('HTTP power function failed');
-			callback('Error');
-		}else{
-			this.log('HTTP power function succeeded!');
-            var info = JSON.parse(res.body);
-            this.log(res.body);
-            this.log(info);
-			callback(null, info);
-		}
+        }
 
     },
 
